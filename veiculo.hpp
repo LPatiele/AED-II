@@ -143,5 +143,5 @@ class Aviao:public Veiculo{
     void setNumeroAssentos(int na){
       numeroAssentos= na;
     };
-    
+
 };
