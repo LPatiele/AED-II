@@ -97,44 +97,61 @@ class Pessoa{
       return NULL;
     };
 
-    void apaga(int idade){
-      //------------------------folha---------------------------------------
-      Pessoa* aux = this->busca(idade);
-      if(aux->filhoDireita == NULL && aux->filhoEsquerda == NULL) {
-        
-        if(aux->pai->filhoDireita == aux) aux->pai->filhoDireita = NULL;
-        if(aux->pai->filhoEsquerda == aux) aux->pai->filhoEsquerda = NULL;
-        delete aux;
-      }
-      // ---------------------com um filho----------------------------------
-      else if(aux->filhoDireita != NULL && aux->filhoEsquerda == NULL){
-        if(aux->pai->filhoDireita == aux) aux->pai->filhoDireita = aux->filhoDireita;
-        if(aux->pai->filhoEsquerda == aux) aux->pai->filhoEsquerda = aux->filhoDireita;
-        aux->filhoDireita->pai= aux->pai;
-        delete aux;
-      }else if(aux->filhoEsquerda != NULL && aux->filhoDireita == NULL){
-        if(aux->pai->filhoDireita == aux) aux->pai->filhoDireita = aux->filhoEsquerda;
-        if(aux->pai->filhoEsquerda == aux) aux->pai->filhoEsquerda = aux->filhoEsquerda;
-        aux->filhoEsquerda->pai = aux->pai;
-        delete aux;
-      }
-      // ---------com muitos filhos indo pelo descendente a direita---------
-      else {
-        //buscar descendente mais proximo
-        Pessoa* auxExtra = aux->filhoDireita;
-        while(auxExtra->filhoEsquerda != NULL ){
-          auxExtra = auxExtra->filhoEsquerda;
-        }
-        if(auxExtra->filhoDireita != NULL){
-          auxExtra->filhoDireita->pai = auxExtra->pai;
-        }
-        auxExtra->pai->filhoEsquerda = auxExtra->filhoDireita;
-        auxExtra->pai = aux->pai;
-        auxExtra->filhoDireita = aux->filhoDireita;
-        auxExtra->filhoEsquerda = aux->filhoEsquerda;
-        delete aux;
-      }
 
+    void apaga(int idade, Pessoa**raiz,string **matriz, int x){
+      Pessoa* aux;
+      if((*raiz)->idade == idade){
+        //---------------------apagar a raiz----------------------------------
+        aux = (*raiz)->filhoDireita;
+        matriz[x][0] = (*raiz)->nome;
+        matriz[x][1] = to_string((*raiz)->idade);
+        while(aux->filhoEsquerda != NULL ){
+          aux = aux->filhoEsquerda;
+        }
+        if(aux->filhoDireita != NULL){
+          aux->filhoDireita->pai = aux->pai;
+        }
+        aux->pai->filhoEsquerda = aux->filhoDireita;
+        (*raiz)->nome = aux->nome;
+        (*raiz)->idade = aux->idade;
+        delete aux;
+      }else{
+        //------------------------folha---------------------------------------
+        aux = this->busca(idade);
+        if(aux->filhoDireita == NULL && aux->filhoEsquerda == NULL) {
+          if(aux->pai->filhoDireita == aux) aux->pai->filhoDireita = NULL;
+          if(aux->pai->filhoEsquerda == aux) aux->pai->filhoEsquerda = NULL;
+          delete aux;
+        }
+        // ---------------------com um filho----------------------------------
+        else if(aux->filhoDireita != NULL && aux->filhoEsquerda == NULL){
+          if(aux->pai->filhoDireita == aux) aux->pai->filhoDireita = aux->filhoDireita;
+          if(aux->pai->filhoEsquerda == aux) aux->pai->filhoEsquerda = aux->filhoDireita;
+          aux->filhoDireita->pai= aux->pai;
+          delete aux;
+        }else if(aux->filhoEsquerda != NULL && aux->filhoDireita == NULL){
+          if(aux->pai->filhoDireita == aux) aux->pai->filhoDireita = aux->filhoEsquerda;
+          if(aux->pai->filhoEsquerda == aux) aux->pai->filhoEsquerda = aux->filhoEsquerda;
+          aux->filhoEsquerda->pai = aux->pai;
+          delete aux;
+        }
+        // ---------com muitos filhos indo pelo descendente a direita---------
+        else {
+          //buscar descendente mais proximo
+          Pessoa* auxExtra = aux->filhoDireita;
+          while(auxExtra->filhoEsquerda != NULL ){
+            auxExtra = auxExtra->filhoEsquerda;
+          }
+          if(auxExtra->filhoDireita != NULL){
+            auxExtra->filhoDireita->pai = auxExtra->pai;
+          }
+          auxExtra->pai->filhoEsquerda = auxExtra->filhoDireita;
+          auxExtra->pai = aux->pai;
+          auxExtra->filhoDireita = aux->filhoDireita;
+          auxExtra->filhoEsquerda = aux->filhoEsquerda;
+          delete aux;
+        }
+    }
     };
 
 };
