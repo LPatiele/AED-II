@@ -98,13 +98,14 @@ class Pessoa{
     };
 
 
-    void apaga(int idade, Pessoa**raiz,string **matriz, int x){
+    void apaga(int idade, Pessoa**raiz){//,string **matriz, int x){
       Pessoa* aux;
       if((*raiz)->idade == idade){
         //---------------------apagar a raiz----------------------------------
-        aux = (*raiz)->filhoDireita;
-        matriz[x][0] = (*raiz)->nome;
-        matriz[x][1] = to_string((*raiz)->idade);
+        // notar numa matriz os nós apagados ta com bug.
+        // aux = (*raiz)->filhoDireita;
+        // matriz[x][0] = (*raiz)-> nome;
+        // matriz[x][1] = to_string((*raiz)->idade);
         while(aux->filhoEsquerda != NULL ){
           aux = aux->filhoEsquerda;
         }
